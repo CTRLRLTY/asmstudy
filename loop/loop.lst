@@ -1,0 +1,24 @@
+     1                                  ; loop asm
+     2                                  extern printf
+     3                                  section .data
+     4 00000000 4C6F6F702025640A00        fmtstr  db  "Loop %d",10,0
+     5 00000009 0A00000000000000          qNum    dq  10
+     6                                  section .bss
+     7                                  section .text
+     8                                    global main
+     9                                  main:
+    10 00000000 55                        push rbp
+    11 00000001 4889E5                    mov rbp,rsp
+    12 00000004 4831C0                    xor rax,rax
+    13                                  loop:
+    14 00000007 4889D8                    mov rax,rbx
+    15 0000000A 48BF-                     mov rdi,fmtstr
+    15 0000000C [0000000000000000] 
+    16 00000014 4889C6                    mov rsi,rax
+    17 00000017 E8(00000000)              call printf
+    18 0000001C 48FFC3                    inc rbx
+    19 0000001F 483B1C25[09000000]        cmp rbx,[qNum]
+    20 00000027 7EDE                      jle loop
+    21                                  
+    22 00000029 C3                        ret
+    23                                  

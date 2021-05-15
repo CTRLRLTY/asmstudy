@@ -1,0 +1,43 @@
+     1                                  ; array.asm
+     2                                  %macro print 2
+     3                                    mov rax,1 ; 1 = write
+     4                                    mov rdi,1 ; 1 = stdout
+     5                                    mov rsi,%1
+     6                                    mov rdx,%2
+     7                                    syscall
+     8                                    mov rax,1
+     9                                    mov rdi,1
+    10                                    mov rsi,0xa ; newline character or 10
+    11                                    mov rdx,1
+    12                                    syscall
+    13                                  %endmacro
+    14                                  
+    15                                  extern printf
+    16                                  section .data
+    17                                    length equ 10
+    18 00000000 746869732069732074-       fmt    db "this is the array value: %d",10,0
+    18 00000009 686520617272617920-
+    18 00000012 76616C75653A202564-
+    18 0000001B 0A00               
+    19                                  section .bss
+    20 00000000 <res 50h>                 drray resq length
+    21                                  section .text
+    22                                    global main
+    23                                  main:
+    24 00000000 55                        push rbp
+    25 00000001 4889E5                    mov rbp,rsp
+    26                                  
+    27 00000004 B87E000000                mov rax,126
+    28 00000009 B90A000000                mov rcx,length
+    29 0000000E 488D3C25[00000000]        lea rdi,[drray]
+    30 00000016 48AB                    array_loop: stosq
+    31 00000018 48FFC0                    inc rax
+    32 0000001B E2F9                      loop array_loop
+    33 0000001D 48BF-                     mov rdi,fmt
+    33 0000001F [0000000000000000] 
+    34 00000027 488B3425[10000000]        mov rsi,QWORD[drray+16]
+    35 0000002F E8(00000000)              call printf
+    36                                  
+    37 00000034 C9                        leave
+    38 00000035 C3                        ret
+    39                                    

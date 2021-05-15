@@ -1,0 +1,20 @@
+     1                                  section .data
+     2 00000000 7B                        bNum db 123
+     3 00000001 38A0B7B2FDBD2B00          qNum dq 12312321321312312
+     4                                  section .bss
+     5                                  section .text
+     6                                    global main
+     7                                  
+     8                                  main:
+     9 00000000 55                        push rbp
+    10 00000001 4889E5                    mov rbp, rsp
+    11                                  
+    12 00000004 48C7C0FFFFFFFF            mov rax, -1 
+    13 0000000B 488B0425[01000000]        mov rax, qword [qNum]
+    14 00000013 48893425[01000000]        mov qword [qNum], rsi
+    15 0000001B 48890425[01000000]        mov qword [qNum], rax
+    16                                  
+    17 00000023 4889EC                    mov rsp,rbp
+    18 00000026 5D                        pop rbp
+    19                                  
+    20 00000027 C3                        ret

@@ -1,0 +1,31 @@
+     1                                  ; arith.asm
+     2                                  extern printf
+     3                                  section .data
+     4 00000000 FFFF7F0000000000          p dq 8388607
+     5 00000008 AF4D1A0000000000          q dq 1723823
+     6 00000010 873C080000000000          e dq 539783
+     7 00000018 28702A71292F652025-       total db "(p*q)/e %d %d",10,0
+     7 00000021 642025640A00       
+     8                                  section .bss
+     9 00000000 ????????????????          phi resq 1
+    10                                  section .text
+    11                                    global main
+    12                                  main: 
+    13 00000000 55                        push rbp
+    14 00000001 4889E5                    mov rbp,rsp
+    15                                  
+    16 00000004 488B0425[00000000]        mov rax,[p]
+    17 0000000C 488B1C25[08000000]        mov rbx,[q]
+    18 00000014 4883E801                  sub rax,1
+    19 00000018 4883EB01                  sub rbx,1
+    20 0000001C 48F7EB                    imul qword rbx
+    21 0000001F 48F73C25[10000000]        idiv qword[e]
+    22 00000027 48BF-                     mov rdi,total
+    22 00000029 [1800000000000000] 
+    23 00000031 4889C6                    mov rsi,rax
+    24 00000034 B800000000                mov rax,0
+    25 00000039 E8(00000000)              call printf
+    26 0000003E 4831D2                    xor rdx,rdx
+    27                                  
+    28 00000041 C9                        leave
+    29 00000042 C3                        ret
